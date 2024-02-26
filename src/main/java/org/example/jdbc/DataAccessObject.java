@@ -3,32 +3,26 @@ package org.example.jdbc;
 import java.sql.Connection;
 import java.util.List;
 
-public class DataAccessObject<T> {
+public abstract  class DataAccessObject <T extends  DataTransferObject>{
     protected final Connection connection;
-
-    public DataAccessObject(Connection connection) {
-        this.connection = connection;
-    }
     protected final static  String LAST_VAL="SELECT last_value FROM";
     protected final static String CUSTOMER_SEQUENCE="hp_customer_seq";
-
-    public T findById(long id) {
-        return null;
+    public DataAccessObject(Connection connection){
+        super();
+        this.connection=connection;
     }
 
-    public List<T> findAll() {
-        return null;
-    }
+    public abstract T create(T dto);
+    public abstract  T findById(long id);
+    public abstract List<T> findAll();
+    public abstract T update(T dto);
+    public abstract void delete(long id);
 
-    public T update(T dto) {
-        return null;
-    }
 
-    public T create(T dto) {
-        return null;
-    }
 
-    public void delete(long id) {
 
-    }
+    //create row
+    //read row
+    //update
+    //delete
 }
