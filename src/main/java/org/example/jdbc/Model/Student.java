@@ -90,3 +90,7 @@ public class Student implements DataTransferObject {
         return "ID :"+ this.id + "| Name :"+this.firstName+this.lastName;
     }
 }
+
+/*
+Another method to do this is to create two URLs to push the data
+ */

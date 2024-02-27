@@ -1,17 +1,49 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+
+import org.example.jdbc.StudentDAO;
+import org.example.jdbc.Model.Student;
+
+import java.sql.*;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        String url = "jdbc:postgresql://localhost:5432/";
+        String url2 = "jdbc:postgresql://localhost:5432/postgres";
+        String username = "Z00DPFJ";
+        String password = "";
+        Connection db;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        try {
+            db = DriverManager.getConnection(url, username, password);
+            Statement databaseCreation = db.createStatement();
+            databaseCreation.executeUpdate("DROP DATABASE IF EXISTS JDBC_DB");
+            databaseCreation.executeUpdate("CREATE DATABASE JDBC_DB");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            db = DriverManager.getConnection(url2, username, password);
+
+
+            StudentDAO studao = new StudentDAO(db); //Will create table if not exists
+            Student fstu = new Student();
+            fstu.setFirstName("Navin");
+            fstu.setLastName("S");
+            fstu.setAddress("xyz");
+            fstu.setCity("Bengaluru");
+            fstu.setEmail("karupal2002@gmail.com");
+            fstu.setPhone("8217703098");
+            fstu.setState("KA");
+            fstu.setZipcode("5600035");
+            studao.create(fstu);
+
+            Student findstu = studao.findById(1);
+            System.out.println(findstu);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
